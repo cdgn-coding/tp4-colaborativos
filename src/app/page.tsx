@@ -17,13 +17,20 @@ import EventForm, {dataType} from './EventForm';
 import {toast} from "@/components/ui/use-toast"
 
 export default function Home() {
-    const {events, addEvent} = useEvents();
+    const {events, addEvent, deleteEvent} = useEvents();
     const [open, setOpen] = React.useState(false);
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
 
     const onClickDate = function (info: DateClickArg) {
         setSelectedDate(info.date)
         setOpen(true)
+    }
+
+    const onClickDeleteEvent = function (eventInfo: any) {
+        deleteEvent(eventInfo)
+        toast({
+            title: "Evento borrado correctamente",
+        })
     }
 
     const onSubmit = (data: dataType) => {
@@ -53,6 +60,7 @@ export default function Home() {
             </Dialog>
             <Calendar
                 onClickDate={onClickDate}
+                onDeleteEvent={onClickDeleteEvent}
                 events={events}
             />
         </main>

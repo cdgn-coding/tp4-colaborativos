@@ -12,9 +12,16 @@ export default function useEvents() {
     }, [])
 
     const addEvent = (event: any) => {
-        localStorage.setItem("events", JSON.stringify([...events, event]));
+        const eventWithId = { ...event, id: Date.now() };
+        localStorage.setItem("events", JSON.stringify([...events, eventWithId]));
         setEvents([...events, event]);
     }
 
-    return { events, addEvent }
+    const deleteEvent = (eventInfo: any) => {
+        const newEvents = events.filter((event) => event.id !== eventInfo.id);
+        localStorage.setItem("events", JSON.stringify(newEvents));
+        setEvents(newEvents);
+    }
+
+    return { events, addEvent, deleteEvent }
 }
